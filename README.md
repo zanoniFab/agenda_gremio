@@ -16,16 +16,12 @@ Esta fase expande o projeto com:
 - pipeline de CI/CD com testes, validação Terraform, build de imagem Docker, smoke test e artefatos de entrega;
 - containerização da Lambda com `Dockerfile` e `compose.yaml`;
 - scripts PowerShell para build, execução local e deploy Terraform usando container;
-- relatório final em `docs\relatorio-final.md`;
-- fluxograma DevOps em `docs\fluxo-devops.mmd`.
 
 ## Estrutura
 
 ```text
 .
 |-- .github\workflows\ci.yml
-|-- docs\fluxo-devops.mmd
-|-- docs\relatorio-final.md
 |-- scripts\build-container.ps1
 |-- scripts\deploy-infra-container.ps1
 |-- scripts\invoke-container.ps1
