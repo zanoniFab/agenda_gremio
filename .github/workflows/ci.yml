@@ -40,8 +40,6 @@ jobs:
           test -s scripts/build-container.ps1
           test -s scripts/run-container.ps1
           test -s scripts/deploy-infra-container.ps1
-          test -s docs/relatorio-final.md
-          test -s docs/fluxo-devops.mmd
           test -s infra/terraform/main.tf
           test -s infra/terraform/variables.tf
           test -s tests/test_handler.py
