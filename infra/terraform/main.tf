@@ -59,7 +59,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "ses:SendRawEmail"
         ]
         Effect   = "Allow"
-        Resource = "*"
+        Resource = aws_ses_email_identity.sender.arn
       }
     ]
   })

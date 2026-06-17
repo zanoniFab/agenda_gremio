@@ -1,0 +1,16 @@
+.git
+.github
+.terraform
+**/.terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.zip
+__pycache__
+*.pyc
+.pytest_cache
+dist
+docs
+resumo-terraform.txt
+LICENSE
+README.md
