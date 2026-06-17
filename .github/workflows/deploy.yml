@@ -1,0 +1,61 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      plan_only:
+        description: "Generate Terraform plan only"
+        type: boolean
+        required: false
+        default: false
+      environment:
+        description: "Deployment environment"
+        type: string
+        required: false
+        default: dev
+      project_name:
+        description: "Terraform project name"
+        type: string
+        required: false
+        default: agenda-gremio
+      schedule_expression:
+        description: "EventBridge schedule expression"
+        type: string
+        required: false
+        default: rate(1 day)
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Terraform deploy
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+      SENDER_EMAIL: ${{ vars.SENDER_EMAIL }}
+      RECIPIENT_EMAIL: ${{ vars.RECIPIENT_EMAIL }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Terraform deploy script
+        shell: pwsh
+        run: |
+          $params = @{
+            SenderEmail        = $env:SENDER_EMAIL
+            RecipientEmail     = $env:RECIPIENT_EMAIL
+            Environment        = "${{ inputs.environment }}"
+            ProjectName        = "${{ inputs.project_name }}"
+            ScheduleExpression = "${{ inputs.schedule_expression }}"
+          }
+
+          if ([System.Convert]::ToBoolean('${{ inputs.plan_only }}')) {
+            $params.PlanOnly = $true
+          }
+
+          ./scripts/deploy-infra-container.ps1 @params
